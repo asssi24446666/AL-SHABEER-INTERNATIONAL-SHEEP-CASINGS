@@ -130,46 +130,36 @@
   }
   .btn-ghost:hover{background:rgba(10,42,92,0.08);}
 
-  /* ---------- 3D LOGO MEDALLION (signature element) ---------- */
-  .medallion-stage{
-    perspective:1200px;display:flex;align-items:center;justify-content:center;
-  }
-  .medallion{
-    position:relative;width:300px;height:300px;
-    transform-style:preserve-3d;
-    animation:medallion-float 7s ease-in-out infinite, medallion-swivel 9s ease-in-out infinite;
-  }
-  @keyframes medallion-swivel{
-    0%,100%{ transform:rotateY(-18deg) rotateX(6deg); }
-    50%{ transform:rotateY(18deg) rotateX(-4deg); }
-  }
-  @keyframes medallion-float{
-    0%,100%{ translate:0 0; }
-    50%{ translate:0 -14px; }
-  }
-  .medallion-disc{
-    position:absolute;inset:0;border-radius:50%;
-    background:conic-gradient(from 200deg, var(--gold-light), var(--gold) 30%, var(--gold-deep) 55%, var(--gold) 78%, var(--gold-light));
-    box-shadow:
-      0 40px 70px -20px rgba(10,42,92,0.55),
-      inset 0 0 0 6px rgba(255,255,255,0.35),
-      inset 0 -10px 30px rgba(122,80,0,0.35);
-  }
-  .medallion img{
-    position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);
-    border-radius:50%;object-fit:cover;
-  }
-  .medallion-shine{
-    position:absolute;inset:0;border-radius:50%;
-    background:linear-gradient(115deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.25) 100%);
-    animation:shine-sweep 5s ease-in-out infinite;
-    mix-blend-mode:overlay;
-  }
-  @keyframes shine-sweep{
-    0%,100%{ opacity:0.5; transform:translateX(-6%); }
-    50%{ opacity:0.9; transform:translateX(6%); }
-  }
-  @media (max-width:860px){ .medallion{width:230px;height:230px;} }
+  
+/* ---------- 3D LOGO MEDALLION (signature element) ---------- */
+.medallion-stage{
+  perspective:1200px;display:flex;align-items:center;justify-content:center;
+}
+.medallion{
+  position:relative;width:300px;height:300px;
+  transform-style:preserve-3d;
+  animation:medallion-float 7s ease-in-out infinite, medallion-swivel 9s ease-in-out infinite;
+}
+@keyframes medallion-swivel{
+  0%,100% { transform: rotateY(-21deg) rotateX(7deg); }
+  50% { transform: rotateY(21deg) rotateX(-5deg); }
+}
+@keyframes medallion-float{
+  0%,100% { translate:0 0; }
+  50% { translate:0 -17px; }
+}
+.medallion-disc{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 200deg, var(--gold-light), var(--gold) 30%, var(--gold-deep) 55%);
+  box-shadow:
+    0 40px 70px -20px rgba(10,42,92,0.55),
+    inset 0 0 6px rgba(255,255,255,0.35),
+    inset 0 -10px 30px rgba(122,80,0,0.35);
+}
+.medallion img{
+  position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);
+  border-radius:50%;object-fit:cover;
+}
 
   /* ---------- rope divider ---------- */
   .rope-divider{
