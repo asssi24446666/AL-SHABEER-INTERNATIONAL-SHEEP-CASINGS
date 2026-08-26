@@ -602,15 +602,6 @@
     <span>Multan, Pakistan · al.shabeercasings@gmail.com</span>
   </div>
 </footer>
-  <!-- Google Generative AI SDK -->
-<script type="importmap">
-  {
-    "imports": {
-      "@google/genai": "https://esm.run/@google/genai"
-    }
-  }
-</script>
-
 <!-- AI Chat Widget with Animated Cute Robot Icon & WhatsApp Button -->
 <div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; font-family: sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
     
@@ -723,12 +714,9 @@
 }
 </style>
 
-<script type="module">
-    import { GoogleGenAI } from "@google/genai";
-
-    // Aapki Aq wali API Key
-    const apiKey = "AQ.Ab8RN6L0ruz2wn7G-eO-LHMgcMDFl0OLctTrKL4K2TgQjd-YBw";
-    const ai = new GoogleGenAI({ apiKey: apiKey });
+<script>
+    // Aapki Mukammal aur Sahi API Key
+    const apiKey = "AQ.Ab8RN6L_daeBMo-IoNrPp10px72dt9spcOcqDZnmlSeCGex_Qw";
 
     window.addEventListener('load', function() {
         const toggleBtn = document.getElementById('chat-toggle-btn');
@@ -778,35 +766,62 @@
             appendLoadingMessage(loadingId, 'Soch raha hai...');
 
             try {
-                // Google official SDK ke zariye Gemini API ko call karna
-                const response = await ai.models.generateContent({
-                    model: 'gemini-1.5-flash',
-                    contents: text,
-                    config: {
-                        systemInstruction: "You are a friendly, open, and professional customer support assistant for AL-SHABEER INTERNATIONAL, based in Multan, Pakistan (founded in 1957 by Mr. Shabeer Bhutta, currently owned by Mr. Pervaiz Bhutta). We specialize in processing and exporting high-quality natural sheep casings.\n\nYour communication style:\n- Talk warmly, openly, and naturally with clients like a human sales assistant.\n- Chat comfortably about our history, quality grades, calibers, European Commission accreditation (AQD-118-ASI), Halal certification, and location.\n- Use your own judgment: If a client asks about specific prices, payment terms, custom bulk quotations, or complex trade conditions that require direct management approval, politely share your direct contact details (WhatsApp: +923072431135 or Email: al.shabeercasings@gmail.com) so they can talk directly to the owner/management.\n- For general inquiries, products, and friendly chats, converse openly and helpfully without pushing contact info unless necessary."
-                    }
+                // API Key ko safe format mein encode karna laazmi hota hai
+                const safeApiKey = encodeURIComponent(apiKey);
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${safeApiKey}`;
+
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        system_instruction: {
+                            parts: [{
+                                text: "You are a friendly, open, and professional customer support assistant for AL-SHABEER INTERNATIONAL, based in Multan, Pakistan (founded in 1957 by Mr. Shabeer Bhutta, currently owned by Mr. Pervaiz Bhutta). We specialize in processing and exporting high-quality natural sheep casings.\n\nYour communication style:\n- Talk warmly, openly, and naturally with clients like a human sales assistant.\n- Chat comfortably about our history, quality grades, calibers, European Commission accreditation (AQD-118-ASI), Halal certification, and location.\n- Use your own judgment: If a client asks about specific prices, payment terms, custom bulk quotations, or complex trade conditions that require direct management approval, politely share your direct contact details (WhatsApp: +923072431135 or Email: al.shabeercasings@gmail.com) so they can talk directly to the owner/management.\n- For general inquiries, products, and friendly chats, converse openly and helpfully without pushing contact info unless necessary."
+                            }]
+                        },
+                        contents: [{
+                            role: "user",
+                            parts: [{ text: text }]
+                        }]
+                    })
                 });
 
+                const data = await response.json();
+                
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
 
-                const aiReply = response.text || "For pricing or detailed inquiries, please reach out to our management directly at WhatsApp: +923072431135.";
+                // Yahan Google ka Asli Error Catch Hoga
+                if (!response.ok || data.error) {
+                    const errorMsg = data.error?.message || "Unknown Google API Error";
+                    appendMessage("🔴 System Error: " + errorMsg, 'ai');
+                    return;
+                }
+
+                const aiReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No text returned.";
                 appendMessage(aiReply, 'ai');
 
             } catch (error) {
-                console.error(error);
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
-                appendMessage("For pricing, payment terms, or direct inquiries, please contact management at WhatsApp: +923072431135.", 'ai');
+                
+                // Network ya Code Error
+                appendMessage("🔴 Network Error: " + error.message, 'ai');
             }
         }
 
         function appendMessage(text, sender) {
             const isUser = sender === 'user';
             const align = isUser ? 'flex-end' : 'flex-start';
-            const bg = isUser ? '#2563eb' : '#ffffff';
-            const color = isUser ? '#ffffff' : '#1f2937';
-            const border = isUser ? 'none' : '1px solid #f3f4f6';
+            
+            let bg, color, border;
+            if (isUser) {
+                bg = '#2563eb'; color = '#ffffff'; border = 'none';
+            } else if (text.startsWith("🔴")) {
+                bg = '#fee2e2'; color = '#991b1b'; border = '1px solid #f87171';
+            } else {
+                bg = '#ffffff'; color = '#1f2937'; border = '1px solid #f3f4f6';
+            }
 
             const msgDiv = document.createElement('div');
             msgDiv.style.cssText = `display: flex; justify-content: ${align}; margin-bottom: 8px;`;
