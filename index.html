@@ -602,65 +602,53 @@
     <span>Multan, Pakistan · al.shabeercasings@gmail.com</span>
   </div>
 </footer>
-<!-- AI Chat Widget with Super Cute Blinking Robot, Smile, Waving Hand & WhatsApp/Email Buttons -->
+<!-- AI Chat Widget with Cute Blinking Robot, TYPING..... & Debugging Safety Checks -->
 <div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; font-family: sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
     
-    <!-- Speech Bubble / Chat with me text (Clickable) -->
+    <!-- Speech Bubble -->
     <div id="chat-bubble" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: floatBubble 2s ease-in-out infinite; cursor: pointer; user-select: none;">
         💬 Chat with me
     </div>
 
-    <!-- Animated Cute 3D Robot Toggle Button (85px Size) -->
+    <!-- Animated Cute 3D Robot Toggle Button -->
     <button id="chat-toggle-btn" type="button" title="Chat with AI Assistant" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); border: none; width: 85px; height: 85px; border-radius: 50%; box-shadow: 0 12px 30px rgba(37,99,235,0.45); cursor: pointer; display: flex; align-items: center; justify-content: center; animation: robotJump 1.2s ease-in-out infinite; position: relative; transition: transform 0.2s;">
         
-        <!-- Custom Cute Robot SVG with Blinking Eyes, Clear Visible Smile, and Waving Hi Hand -->
+        <!-- Custom Cute Robot SVG -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="width: 65px; height: 65px; pointer-events: none;">
-            <!-- Antenna -->
             <line x1="50" y1="20" x2="50" y2="10" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
             <circle cx="50" cy="8" r="4" fill="#facc15" class="glow-antenna"/>
             
-            <!-- Ears / Headphones -->
             <rect x="18" y="32" width="6" height="16" rx="3" fill="#06b6d4"/>
             <rect x="76" y="32" width="6" height="16" rx="3" fill="#06b6d4"/>
 
-            <!-- Head -->
             <rect x="23" y="18" width="54" height="36" rx="18" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
-            
-            <!-- Visor Screen -->
             <rect x="28" y="24" width="44" height="24" rx="10" fill="#0284c7"/>
             
-            <!-- Eyes (Blinking Animation) -->
             <g class="blinking-eyes">
                 <circle cx="41" cy="33" r="3.5" fill="#ffffff"/>
                 <circle cx="59" cy="33" r="3.5" fill="#ffffff"/>
             </g>
 
-            <!-- Cute Visible Smile -->
             <path d="M 43 41 Q 50 47 57 41" stroke="#facc15" stroke-width="3" stroke-linecap="round" fill="none"/>
 
-            <!-- Body -->
             <path d="M 30 58 C 30 55, 36 52, 50 52 C 64 52, 70 55, 70 58 L 70 74 C 70 78, 64 80, 50 80 C 36 80, 30 78, 30 74 Z" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
-            <!-- Chest Badge / Shield -->
             <path d="M 42 62 L 58 62 L 54 72 L 46 72 Z" fill="#06b6d4"/>
 
-            <!-- Left Arm (Static) -->
             <rect x="22" y="60" width="6" height="14" rx="3" fill="#f8fafc"/>
 
-            <!-- Right Arm / Waving Hi Hand -->
             <g class="waving-hand" style="transform-origin: 74px 58px;">
                 <rect x="72" y="46" width="6" height="16" rx="3" fill="#f8fafc"/>
                 <circle cx="75" cy="44" r="3.5" fill="#f8fafc"/>
             </g>
 
-            <!-- Legs / Paon (Cute Feet) -->
             <ellipse cx="38" cy="86" rx="6" ry="4" fill="#0284c7"/>
             <ellipse cx="62" cy="86" rx="6" ry="4" fill="#0284c7"/>
         </svg>
     </button>
 
-    <!-- Chat Box Container (Initially hidden) -->
+    <!-- Chat Box Container -->
     <div id="chat-box" style="display: none; position: absolute; bottom: 110px; right: 0; width: 350px; height: 530px; background-color: white; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); border: 1px solid #e5e7eb; overflow: hidden; flex-direction: column;">
-        <!-- Chat Header -->
+        
         <div style="background-color: #2563eb; color: white; padding: 16px; display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <h3 style="margin: 0; font-size: 16px; font-weight: 600;">Al-Shabeer Assistant</h3>
@@ -669,7 +657,6 @@
             <button id="chat-close-btn" type="button" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; line-height: 1;">&times;</button>
         </div>
 
-        <!-- Direct WhatsApp Contact Quick Bar -->
         <div style="background-color: #f0fdf4; padding: 8px 12px; border-bottom: 1px solid #dcfce7; display: flex; align-items: center; justify-content: space-between;">
             <span style="font-size: 12px; color: #166534; font-weight: 500;">Need urgent talk with management?</span>
             <a href="https://wa.me/923072431135" target="_blank" style="background-color: #22c55e; color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; text-decoration: none; font-weight: bold; display: flex; align-items: center; gap: 4px;">
@@ -677,7 +664,6 @@
             </a>
         </div>
 
-        <!-- Chat Messages Area -->
         <div id="chat-messages" style="flex: 1; padding: 16px; overflow-y: auto; background-color: #f9fafb; display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
             <div style="display: flex; justify-content: flex-start;">
                 <div style="background-color: white; color: #1f2937; padding: 10px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); max-width: 80%; border: 1px solid #f3f4f6;">
@@ -686,7 +672,6 @@
             </div>
         </div>
 
-        <!-- Chat Input Area -->
         <div style="padding: 12px; background-color: white; border-top: 1px solid #e5e7eb; display: flex; gap: 8px; align-items: center;">
             <input type="text" id="chat-input" placeholder="Type your message..." style="flex: 1; border: 1px solid #d1d5db; border-radius: 8px; padding: 8px 12px; font-size: 14px; outline: none;">
             <button id="chat-send-btn" type="button" style="background-color: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; font-weight: 500;">Send</button>
@@ -694,7 +679,6 @@
     </div>
 </div>
 
-<!-- Robot Animation Styles -->
 <style>
 @keyframes robotJump {
     0%, 100% { transform: translateY(0); }
@@ -742,30 +726,16 @@
 
         function toggleChat(e) {
             e.stopPropagation();
-            if (chatBox.style.display === 'none' || chatBox.style.display === '') {
-                chatBox.style.display = 'flex';
-            } else {
-                chatBox.style.display = 'none';
-            }
+            chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'flex' : 'none';
         }
 
         if (toggleBtn) toggleBtn.onclick = toggleChat;
         if (bubble) bubble.onclick = toggleChat;
-
-        if (closeBtn && chatBox) {
-            closeBtn.onclick = function(e) {
-                e.stopPropagation();
-                chatBox.style.display = 'none';
-            };
-        }
+        if (closeBtn) closeBtn.onclick = (e) => { e.stopPropagation(); chatBox.style.display = 'none'; };
 
         if (sendBtn && inputField) {
             sendBtn.onclick = sendMessage;
-            inputField.onkeypress = function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            };
+            inputField.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
         }
 
         async function sendMessage() {
@@ -776,9 +746,14 @@
             inputField.value = '';
 
             const loadingId = 'msg-' + Date.now();
-            appendLoadingMessage(loadingId, 'Soch raha hai...');
+            appendLoadingMessage(loadingId, 'TYPING.....');
 
             try {
+                // Safety Check: API Key validation
+                if (!openRouterApiKey || !openRouterApiKey.startsWith("sk-or-")) {
+                    throw new Error("Invalid OpenRouter API Key format!");
+                }
+
                 const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
@@ -786,7 +761,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        "model": "openrouter/free", // OpenRouter Auto-Routing Free Model
+                        "model": "openrouter/free",
                         "messages": [
                             {
                                 "role": "system",
@@ -800,17 +775,16 @@
                     })
                 });
 
-                const data = await response.json();
-                
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
 
-                if (!response.ok || data.error) {
-                    const errorMsg = data.error?.message || "OpenRouter API Error";
-                    appendMessage("🔴 System Error: " + errorMsg, 'ai');
-                    return;
+                // Debugging Check: Response Status
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error?.message || `HTTP Error! status: ${response.status}`);
                 }
 
+                const data = await response.json();
                 let aiReply = data.choices?.[0]?.message?.content || "No response generated.";
                 
                 if (aiReply.includes("[SHOW_CONTACT_BUTTONS]")) {
@@ -825,22 +799,18 @@
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
                 
-                appendMessage("🔴 Network Error: " + error.message, 'ai');
+                // Detailed Debugging Output on Screen
+                console.error("Chat Error:", error);
+                appendMessage("🔴 System Error: " + error.message, 'ai');
             }
         }
 
         function appendMessage(text, sender) {
             const isUser = sender === 'user';
             const align = isUser ? 'flex-end' : 'flex-start';
-            
-            let bg, color, border;
-            if (isUser) {
-                bg = '#2563eb'; color = '#ffffff'; border = 'none';
-            } else if (text.startsWith("🔴")) {
-                bg = '#fee2e2'; color = '#991b1b'; border = '1px solid #f87171';
-            } else {
-                bg = '#ffffff'; color = '#1f2937'; border = '1px solid #f3f4f6';
-            }
+            const bg = isUser ? '#2563eb' : (text.startsWith("🔴") ? '#fee2e2' : '#ffffff');
+            const color = isUser ? '#ffffff' : (text.startsWith("🔴") ? '#991b1b' : '#1f2937');
+            const border = isUser ? 'none' : (text.startsWith("🔴") ? '1px solid #f87171' : '1px solid #f3f4f6');
 
             const msgDiv = document.createElement('div');
             msgDiv.style.cssText = `display: flex; justify-content: ${align}; margin-bottom: 8px;`;
@@ -853,21 +823,15 @@
         function appendMessageWithButtons(text) {
             const msgDiv = document.createElement('div');
             msgDiv.style.cssText = `display: flex; justify-content: flex-start; margin-bottom: 8px;`;
-            
             msgDiv.innerHTML = `
                 <div style="background-color: #ffffff; color: #1f2937; padding: 12px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); max-width: 85%; border: 1px solid #f3f4f6; line-height: 1.4;">
                     <div style="margin-bottom: 8px;">${text}</div>
                     <div style="display: flex; gap: 8px; margin-top: 6px;">
-                        <a href="https://wa.me/923072431135" target="_blank" style="background-color: #22c55e; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px;">
-                            💬 WhatsApp
-                        </a>
-                        <a href="mailto:al.shabeercasings@gmail.com" style="background-color: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px;">
-                            ✉️ Email Us
-                        </a>
+                        <a href="https://wa.me/923072431135" target="_blank" style="background-color: #22c55e; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px;">💬 WhatsApp</a>
+                        <a href="mailto:al.shabeercasings@gmail.com" style="background-color: #2563eb; color: white; padding: 6px 12px; border-radius: 6px; font-size: 12px; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 4px;">✉️ Email Us</a>
                     </div>
                 </div>
             `;
-            
             messagesArea.appendChild(msgDiv);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
@@ -876,8 +840,7 @@
             const msgDiv = document.createElement('div');
             msgDiv.id = id;
             msgDiv.style.cssText = `display: flex; justify-content: flex-start; margin-bottom: 8px;`;
-            msgDiv.innerHTML = `<div style="background-color: #ffffff; color: #6b7280; padding: 10px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); max-width: 80%; border: ${border}; font-style: italic;">${text}</div>`;
-            
+            msgDiv.innerHTML = `<div style="background-color: #ffffff; color: #6b7280; padding: 10px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); max-width: 80%; border: 1px solid #f3f4f6; font-style: italic; font-weight: bold; letter-spacing: 1px;">${text}</div>`;
             messagesArea.appendChild(msgDiv);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
