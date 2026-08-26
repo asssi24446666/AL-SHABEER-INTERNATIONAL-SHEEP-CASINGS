@@ -602,7 +602,7 @@
     <span>Multan, Pakistan · al.shabeercasings@gmail.com</span>
   </div>
 </footer>
-<!-- AI Chat Widget with Clean Output Filter -->
+<!-- AI Chat Widget with Direct Website Data & Price/Payment Contact Rule -->
 <div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; font-family: sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
     
     <!-- Speech Bubble -->
@@ -760,7 +760,7 @@
                         "messages": [
                             {
                                 "role": "system",
-                                "content": "You are a concise customer support assistant for AL-SHABEER INTERNATIONAL. \n\nRules:\n1. Casual chat, greetings (Hi, Hello): Answer briefly and naturally on your own.\n2. Website Data: \n   - Business: Natural sheep casings export.\n   - History: Founded in 1957 by Mr. Shabeer Bhutta, currently owned by Mr. Pervaiz Bhutta.\n   - Location: Multan, Pakistan.\n   - Certifications: EU accreditation AQD-118-ASI and Halal Certificate.\n3. Keep answers extremely short, direct, and limited strictly to what was asked.\n4. If the answer is NOT in the website data (like pricing, rates, payment terms, or custom orders), you MUST output the exact keyword code: [SHOW_CONTACT_BUTTONS]."
+                                "content": "You are a customer support assistant for AL-SHABEER INTERNATIONAL.\n\nInstructions:\n1. Greetings & general chat: Reply naturally on your own.\n2. Website Data: Answer all questions about our company, history (founded 1957 by Mr. Shabeer Bhutta, owned by Mr. Pervaiz Bhutta), location (Multan, Pakistan), EU accreditation (AQD-118-ASI), Halal certification, and products/calibers (salted natural sheep casings in calibers like 18/20, 20/22, 22/24, 24/26, etc.) directly using this website data.\n3. Price & Payment Terms: If the client asks about price, rates, payment terms, or quotations, you MUST output the exact keyword code: [SHOW_CONTACT_BUTTONS]."
                             },
                             {
                                 "role": "user",
@@ -776,13 +776,12 @@
                 const data = await response.json();
                 let aiReply = data.choices?.[0]?.message?.content || "No response generated.";
                 
-                // Cleanup any stray system tags if returned
                 aiReply = aiReply.replace(/User Safety:.*$/gim, "").trim();
                 if (!aiReply) aiReply = "Hello! How can I help you?";
 
                 if (aiReply.includes("[SHOW_CONTACT_BUTTONS]")) {
                     aiReply = aiReply.replace("[SHOW_CONTACT_BUTTONS]", "").trim();
-                    if (!aiReply) aiReply = "For pricing and detailed inquiries, please contact our management directly:";
+                    if (!aiReply) aiReply = "For price and payment terms, please contact our management directly:";
                     appendMessageWithButtons(aiReply);
                 } else {
                     appendMessage(aiReply, 'ai');
@@ -830,7 +829,7 @@
             const msgDiv = document.createElement('div');
             msgDiv.id = id;
             msgDiv.style.cssText = `display: flex; justify-content: flex-start; margin-bottom: 8px;`;
-            msgDiv.innerHTML = `<div style="background-color: #ffffff; color: #6b7280; padding: 10px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); max-width: 80%; border: 1px solid #f3f4f6; font-style: italic; font-weight: bold; letter-spacing: 1px;">${text}</div>`;
+            msgDiv.innerHTML = `<div style="background-color: #ffffff; color: #6b7280; padding: 10px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); max-width: 80%; border: ${border}; font-style: italic; font-weight: bold; letter-spacing: 1px;">${text}</div>`;
             messagesArea.appendChild(msgDiv);
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
