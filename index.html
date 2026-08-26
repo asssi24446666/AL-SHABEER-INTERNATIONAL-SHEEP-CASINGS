@@ -715,7 +715,7 @@
 </style>
 
 <script>
-    // Aapki OpenRouter Key yahan properly add kar di gayi hai
+    // Aapki OpenRouter Key
     const openRouterApiKey = "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";
 
     window.addEventListener('load', function() {
@@ -773,7 +773,7 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        "model": "meta-llama/llama-3-8b-instruct:free",
+                        "model": "google/gemma-2-9b-it:free", // OpenRouter ka active free model
                         "messages": [
                             {
                                 "role": "system",
