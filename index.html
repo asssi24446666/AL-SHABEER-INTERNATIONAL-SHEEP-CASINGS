@@ -766,9 +766,9 @@
             appendLoadingMessage(loadingId, 'Soch raha hai...');
 
             try {
-                // API Key ko safe format mein encode karna laazmi hota hai
                 const safeApiKey = encodeURIComponent(apiKey);
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${safeApiKey}`;
+                // YAHAN MODEL KA NAAM UPDATE KIYA GAYA HAI 'gemini-1.5-flash-latest' TA KE ERROR NA AAYE
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${safeApiKey}`;
 
                 const response = await fetch(url, {
                     method: 'POST',
@@ -791,7 +791,6 @@
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
 
-                // Yahan Google ka Asli Error Catch Hoga
                 if (!response.ok || data.error) {
                     const errorMsg = data.error?.message || "Unknown Google API Error";
                     appendMessage("🔴 System Error: " + errorMsg, 'ai');
@@ -805,7 +804,6 @@
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
                 
-                // Network ya Code Error
                 appendMessage("🔴 Network Error: " + error.message, 'ai');
             }
         }
