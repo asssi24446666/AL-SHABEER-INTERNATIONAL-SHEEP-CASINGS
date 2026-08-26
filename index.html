@@ -602,7 +602,7 @@
     <span>Multan, Pakistan · al.shabeercasings@gmail.com</span>
   </div>
 </footer>
-<!-- AI Chat Widget with Clean Direct Website Data & Price/Payment Rule -->
+<!-- AI Chat Widget - Smart Hybrid Fallback System -->
 <div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; font-family: sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
     
     <!-- Speech Bubble -->
@@ -738,6 +738,39 @@
             inputField.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
         }
 
+        // --- BACKEND SMART FALLBACK CHAT ENGINE (Local Brain) ---
+        function getBackendFallbackResponse(text) {
+            const t = text.toLowerCase();
+            
+            // Price & Payment Terms Rule
+            if (t.includes('price') || t.includes('payment') || t.includes('rate') || t.includes('cost') || t.includes('quotation') || t.includes('term') || t.includes('qoutation') || t.includes('qeemat')) {
+                return { type: 'buttons', text: "For price and payment terms, please contact our management directly:" };
+            }
+            
+            // Greetings
+            if (t.includes('hi') || t.includes('hello') || t.includes('salam') || t.includes('hey')) {
+                return { type: 'text', text: "Assalam-o-Alaikum! Welcome to Al-Shabeer International. How can I help you?" };
+            }
+            
+            // Calibers & Products
+            if (t.includes('caliber') || t.includes('size') || t.includes('18/20') || t.includes('20/22') || t.includes('22/24') || t.includes('24/26') || t.includes('product') || t.includes('casing')) {
+                return { type: 'text', text: "We provide salted natural sheep casings in precise calibers including 18/20, 20/22, 22/24, and 24/26, tailored to exact production lines." };
+            }
+            
+            // History & Company Info
+            if (t.includes('history') || t.includes('founder') || t.includes('owner') || t.includes('1957') || t.includes('shabeer') || t.includes('pervaiz') || t.includes('trade') || t.includes('years')) {
+                return { type: 'text', text: "Al-Shabeer International was founded in 1957 by Mr. Shabeer Bhutta and is currently owned by Mr. Pervaiz Bhutta, with 67 years of experience in the natural sheep casing trade." };
+            }
+            
+            // Location & Certifications
+            if (t.includes('location') || t.includes('address') || t.includes('multan') || t.includes('pakistan') || t.includes('certif') || t.includes('aqd') || t.includes('halal') || t.includes('eu')) {
+                return { type: 'text', text: "We are based in Multan, Pakistan. We hold European Commission veterinary accreditation (AQD-118-ASI) and full Halal certification." };
+            }
+            
+            // Default fallback for anything else not recognized
+            return { type: 'buttons', text: "For detailed inquiries, please contact our management directly:" };
+        }
+
         async function sendMessage() {
             const text = inputField.value.trim();
             if (!text) return;
@@ -748,7 +781,13 @@
             const loadingId = 'msg-' + Date.now();
             appendLoadingMessage(loadingId, 'TYPING.....');
 
+            let aiResponded = false;
+
             try {
+                // Timeout controller (5 seconds max wait for AI)
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+
                 const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
@@ -760,37 +799,51 @@
                         "messages": [
                             {
                                 "role": "system",
-                                "content": "You are a customer support assistant for AL-SHABEER INTERNATIONAL. Answer questions using data from this website (natural sheep casings export, history founded in 1957 by Mr. Shabeer Bhutta, owned by Mr. Pervaiz Bhutta, located in Multan, Pakistan, EU accreditation AQD-118-ASI, Halal certified, and product calibers like 18/20, 20/22, 22/24, 24/26). If the user asks about price or payment terms, output the exact keyword code: [SHOW_CONTACT_BUTTONS]."
+                                "content": "You are a customer support assistant for AL-SHABEER INTERNATIONAL. Answer questions using data from this website (natural sheep casings export, history founded in 1957 by Mr. Shabeer Bhutta, owned by Mr. Pervaiz Bhutta, located in Multan, Pakistan, EU accreditation AQD-118-ASI, Halal certified, and product calibers like 18/20, 20/22, 22/24, 24/26). If the user asks about price or payment terms, output: [SHOW_CONTACT_BUTTONS]."
                             },
                             {
                                 "role": "user",
                                 "content": text
                             }
                         ]
-                    })
+                    }),
+                    signal: controller.signal
                 });
 
-                const loadingElement = document.getElementById(loadingId);
-                if (loadingElement) loadingElement.remove();
+                clearTimeout(timeoutId);
 
-                const data = await response.json();
-                let aiReply = data.choices?.[0]?.message?.content || "No response generated.";
-                
-                aiReply = aiReply.replace(/User Safety:.*$/gim, "").trim();
-                if (!aiReply) aiReply = "Hello! How can I help you?";
+                if (response.ok) {
+                    const data = await response.json();
+                    let aiReply = data.choices?.[0]?.message?.content || "";
+                    aiReply = aiReply.replace(/User Safety:.*$/gim, "").trim();
 
-                if (aiReply.includes("[SHOW_CONTACT_BUTTONS]")) {
-                    aiReply = aiReply.replace("[SHOW_CONTACT_BUTTONS]", "").trim();
-                    if (!aiReply) aiReply = "For price and payment terms, please contact our management directly:";
-                    appendMessageWithButtons(aiReply);
-                } else {
-                    appendMessage(aiReply, 'ai');
+                    if (aiReply) {
+                        aiResponded = true;
+                        const loadingElement = document.getElementById(loadingId);
+                        if (loadingElement) loadingElement.remove();
+
+                        if (aiReply.includes("[SHOW_CONTACT_BUTTONS]")) {
+                            appendMessageWithButtons("For price and payment terms, please contact our management directly:");
+                        } else {
+                            appendMessage(aiReply, 'ai');
+                        }
+                    }
                 }
+            } catch (err) {
+                // AI failed or timed out -> Fallback will take over
+            }
 
-            } catch (error) {
+            // --- BACKEND FALLBACK TRIGGER (Runs if AI is offline or silent) ---
+            if (!aiResponded) {
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
-                appendMessage("🔴 Network Error", 'ai');
+
+                const fallback = getBackendFallbackResponse(text);
+                if (fallback.type === 'buttons') {
+                    appendMessageWithButtons(fallback.text);
+                } else {
+                    appendMessage(fallback.text, 'ai');
+                }
             }
         }
 
@@ -834,6 +887,6 @@
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
     });
-</script>
+  </script>
 </body>
 </html>
