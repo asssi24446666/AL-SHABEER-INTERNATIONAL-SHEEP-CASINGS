@@ -715,8 +715,8 @@
 </style>
 
 <script>
-    // Aapki Mukammal aur Sahi API Key
-    const apiKey = "AQ.Ab8RN6L_daeBMo-IoNrPp10px72dt9spcOcqDZnmlSeCGex_Qw";
+    // Aapki OpenRouter Key yahan properly add kar di gayi hai
+    const openRouterApiKey = "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";
 
     window.addEventListener('load', function() {
         const toggleBtn = document.getElementById('chat-toggle-btn');
@@ -766,23 +766,24 @@
             appendLoadingMessage(loadingId, 'Soch raha hai...');
 
             try {
-                const safeApiKey = encodeURIComponent(apiKey);
-                // YAHAN MODEL KA NAAM UPDATE KIYA GAYA HAI 'gemini-1.5-flash-latest' TA KE ERROR NA AAYE
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${safeApiKey}`;
-
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${openRouterApiKey}`,
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify({
-                        system_instruction: {
-                            parts: [{
-                                text: "You are a friendly, open, and professional customer support assistant for AL-SHABEER INTERNATIONAL, based in Multan, Pakistan (founded in 1957 by Mr. Shabeer Bhutta, currently owned by Mr. Pervaiz Bhutta). We specialize in processing and exporting high-quality natural sheep casings.\n\nYour communication style:\n- Talk warmly, openly, and naturally with clients like a human sales assistant.\n- Chat comfortably about our history, quality grades, calibers, European Commission accreditation (AQD-118-ASI), Halal certification, and location.\n- Use your own judgment: If a client asks about specific prices, payment terms, custom bulk quotations, or complex trade conditions that require direct management approval, politely share your direct contact details (WhatsApp: +923072431135 or Email: al.shabeercasings@gmail.com) so they can talk directly to the owner/management.\n- For general inquiries, products, and friendly chats, converse openly and helpfully without pushing contact info unless necessary."
-                            }]
-                        },
-                        contents: [{
-                            role: "user",
-                            parts: [{ text: text }]
-                        }]
+                        "model": "meta-llama/llama-3-8b-instruct:free",
+                        "messages": [
+                            {
+                                "role": "system",
+                                "content": "You are a friendly, open, and professional customer support assistant for AL-SHABEER INTERNATIONAL, based in Multan, Pakistan (founded in 1957 by Mr. Shabeer Bhutta, currently owned by Mr. Pervaiz Bhutta). We specialize in processing and exporting high-quality natural sheep casings.\n\nYour communication style:\n- Talk warmly, openly, and naturally with clients like a human sales assistant.\n- Chat comfortably about our history, quality grades, calibers, European Commission accreditation (AQD-118-ASI), Halal certification, and location.\n- Use your own judgment: If a client asks about specific prices, payment terms, custom bulk quotations, or complex trade conditions that require direct management approval, politely share your direct contact details (WhatsApp: +923072431135 or Email: al.shabeercasings@gmail.com) so they can talk directly to the owner/management.\n- For general inquiries, products, and friendly chats, converse openly and helpfully without pushing contact info unless necessary."
+                            },
+                            {
+                                "role": "user",
+                                "content": text
+                            }
+                        ]
                     })
                 });
 
@@ -792,12 +793,12 @@
                 if (loadingElement) loadingElement.remove();
 
                 if (!response.ok || data.error) {
-                    const errorMsg = data.error?.message || "Unknown Google API Error";
+                    const errorMsg = data.error?.message || "OpenRouter API Error";
                     appendMessage("🔴 System Error: " + errorMsg, 'ai');
                     return;
                 }
 
-                const aiReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No text returned.";
+                const aiReply = data.choices?.[0]?.message?.content || "No response generated.";
                 appendMessage(aiReply, 'ai');
 
             } catch (error) {
