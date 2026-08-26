@@ -602,7 +602,7 @@
     <span>Multan, Pakistan · al.shabeercasings@gmail.com</span>
   </div>
 </footer>
-<!-- AI Chat Widget with Cute Blinking Robot, TYPING..... & Debugging Safety Checks -->
+<!-- AI Chat Widget with Clean Output Filter -->
 <div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 999999; font-family: sans-serif; display: flex; flex-direction: column; align-items: flex-end;">
     
     <!-- Speech Bubble -->
@@ -749,11 +749,6 @@
             appendLoadingMessage(loadingId, 'TYPING.....');
 
             try {
-                // Safety Check: API Key validation
-                if (!openRouterApiKey || !openRouterApiKey.startsWith("sk-or-")) {
-                    throw new Error("Invalid OpenRouter API Key format!");
-                }
-
                 const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
@@ -778,15 +773,13 @@
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
 
-                // Debugging Check: Response Status
-                if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    throw new Error(errData.error?.message || `HTTP Error! status: ${response.status}`);
-                }
-
                 const data = await response.json();
                 let aiReply = data.choices?.[0]?.message?.content || "No response generated.";
                 
+                // Cleanup any stray system tags if returned
+                aiReply = aiReply.replace(/User Safety:.*$/gim, "").trim();
+                if (!aiReply) aiReply = "Hello! How can I help you?";
+
                 if (aiReply.includes("[SHOW_CONTACT_BUTTONS]")) {
                     aiReply = aiReply.replace("[SHOW_CONTACT_BUTTONS]", "").trim();
                     if (!aiReply) aiReply = "For pricing and detailed inquiries, please contact our management directly:";
@@ -798,19 +791,16 @@
             } catch (error) {
                 const loadingElement = document.getElementById(loadingId);
                 if (loadingElement) loadingElement.remove();
-                
-                // Detailed Debugging Output on Screen
-                console.error("Chat Error:", error);
-                appendMessage("🔴 System Error: " + error.message, 'ai');
+                appendMessage("🔴 Network Error", 'ai');
             }
         }
 
         function appendMessage(text, sender) {
             const isUser = sender === 'user';
             const align = isUser ? 'flex-end' : 'flex-start';
-            const bg = isUser ? '#2563eb' : (text.startsWith("🔴") ? '#fee2e2' : '#ffffff');
-            const color = isUser ? '#ffffff' : (text.startsWith("🔴") ? '#991b1b' : '#1f2937');
-            const border = isUser ? 'none' : (text.startsWith("🔴") ? '1px solid #f87171' : '1px solid #f3f4f6');
+            const bg = isUser ? '#2563eb' : '#ffffff';
+            const color = isUser ? '#ffffff' : '#1f2937';
+            const border = isUser ? 'none' : '1px solid #f3f4f6';
 
             const msgDiv = document.createElement('div');
             msgDiv.style.cssText = `display: flex; justify-content: ${align}; margin-bottom: 8px;`;
