@@ -67,7 +67,7 @@
   }
   .nav-cta:hover{background:var(--blue-bright);}
   .nav-mobile-hide{display:flex;}
-  @media (max-width:760px){ .nav-mobile-hide{display:none;} }
+  @media (max-width:768px){ .nav-mobile-hide{display:none;} }
 
   /* ---------- HERO ---------- */
   .hero{
